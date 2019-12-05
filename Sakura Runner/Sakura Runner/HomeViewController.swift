@@ -35,7 +35,8 @@ class HomeViewController: UIViewController {
     }
     
     override func viewDidLoad() {
-        super.viewDidLoad();
+        super.viewDidLoad()
+        Sound.playSound()
         let value = UIInterfaceOrientation.landscapeLeft.rawValue
         UIDevice.current.setValue(value, forKey: "orientation")
         assignbackground()
@@ -69,16 +70,21 @@ class HomeViewController: UIViewController {
         view.layer.addSublayer(sakuraLayer)
     }
     
+    @objc func goToSettings(sender: UIButton!) {
+        self.performSegue(withIdentifier: "setting", sender: self)
+    }
+    
     func settingButton() {
         let button = UIButton(frame: CGRect(x:(self.view.frame.size.width-200)/2, y:(self.view.frame.size.height-40)/2, width: 200, height: 50))
         let image = UIImage(named: "settings") as UIImage?
         button.setImage(image, for: .normal)
+        button.addTarget(self, action: #selector(goToSettings), for: .touchUpInside);
         self.view.addSubview(button)
     }
     
     @objc func buttonAction(sender: UIButton!) {
         self.performSegue(withIdentifier: "start", sender: self)
-                      }
+    }
     
     func startButton() {
         let button = UIButton(frame: CGRect(x:(self.view.frame.size.width-200)/2, y:250, width: 200, height: 80))
@@ -130,6 +136,4 @@ class HomeViewController: UIViewController {
         animateRunner()
         return scene
     }
-    
-    
 }
