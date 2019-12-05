@@ -15,7 +15,7 @@ class GameScene: SKScene {
     private var spinnyNode : SKShapeNode?
     let background = SKSpriteNode(imageNamed: "Background Screen.png")
     let ground = SKSpriteNode(imageNamed: "Ground.png")
-    let player = SKSpriteNode(imageNamed: "Running00.png")
+    let player = SKSpriteNode(imageNamed: "Running0.png")
     var shurikenValsY = [Double]()
     
     struct PhysicsCategory {
@@ -51,7 +51,7 @@ class GameScene: SKScene {
         player.size = CGSize(width: size.width/4, height: size.height/2)
         player.position = CGPoint(x: player.size.width-size.width/2, y: ground.position.y+ground.size.height+player.size.height/16)
         player.zPosition = 0
-        player.physicsBody = SKPhysicsBody(texture: SKTexture.init(imageNamed: "Running00.png"), size: player.size)
+        player.physicsBody = SKPhysicsBody(texture: SKTexture.init(imageNamed: "Running0.png"), size: player.size)
         player.physicsBody?.isDynamic = false
         player.physicsBody?.categoryBitMask = PhysicsCategory.player
         player.physicsBody?.collisionBitMask = PhysicsCategory.platform
