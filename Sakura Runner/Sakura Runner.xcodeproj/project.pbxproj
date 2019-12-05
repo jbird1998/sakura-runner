@@ -70,11 +70,16 @@
 		21D612282395A71500B3D636 /* Running07.png in Resources */ = {isa = PBXBuildFile; fileRef = 21D611EC2395A71500B3D636 /* Running07.png */; };
 		21D612292395A71500B3D636 /* Running03.png in Resources */ = {isa = PBXBuildFile; fileRef = 21D611ED2395A71500B3D636 /* Running03.png */; };
 		21D6122A2395A71500B3D636 /* Running02.png in Resources */ = {isa = PBXBuildFile; fileRef = 21D611EE2395A71500B3D636 /* Running02.png */; };
-		21D6122B2395A71500B3D636 /* Running00.png in Resources */ = {isa = PBXBuildFile; fileRef = 21D611EF2395A71500B3D636 /* Running00.png */; };
-		21D6122C2395A71500B3D636 /* Running01.png in Resources */ = {isa = PBXBuildFile; fileRef = 21D611F02395A71500B3D636 /* Running01.png */; };
 		21D6122D2395A71500B3D636 /* Running11rep1.png in Resources */ = {isa = PBXBuildFile; fileRef = 21D611F12395A71500B3D636 /* Running11rep1.png */; };
 		21D6122E2395A71500B3D636 /* Running09.png in Resources */ = {isa = PBXBuildFile; fileRef = 21D611F22395A71500B3D636 /* Running09.png */; };
 		21D6122F2395A71500B3D636 /* Running08.png in Resources */ = {isa = PBXBuildFile; fileRef = 21D611F32395A71500B3D636 /* Running08.png */; };
+		21D612332395DAE400B3D636 /* Shuriken.png in Resources */ = {isa = PBXBuildFile; fileRef = 21D612322395DAE400B3D636 /* Shuriken.png */; };
+		21D612372396B94800B3D636 /* Spikes.png in Resources */ = {isa = PBXBuildFile; fileRef = 21D612342396B94700B3D636 /* Spikes.png */; };
+		21D612382396B94800B3D636 /* Free Spikes.png in Resources */ = {isa = PBXBuildFile; fileRef = 21D612352396B94700B3D636 /* Free Spikes.png */; };
+		21D612392396B94800B3D636 /* Small Platform.png in Resources */ = {isa = PBXBuildFile; fileRef = 21D612362396B94700B3D636 /* Small Platform.png */; };
+		21D6123C2396FCBA00B3D636 /* Ground.png in Resources */ = {isa = PBXBuildFile; fileRef = 21D6123A2396FCBA00B3D636 /* Ground.png */; };
+		21D61241239700BB00B3D636 /* Background Screen.png in Resources */ = {isa = PBXBuildFile; fileRef = 21D61240239700BB00B3D636 /* Background Screen.png */; };
+		21D612432398537E00B3D636 /* Running00.png in Resources */ = {isa = PBXBuildFile; fileRef = 21D612422398537E00B3D636 /* Running00.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -143,11 +148,16 @@
 		21D611EC2395A71500B3D636 /* Running07.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Running07.png; sourceTree = "<group>"; };
 		21D611ED2395A71500B3D636 /* Running03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Running03.png; sourceTree = "<group>"; };
 		21D611EE2395A71500B3D636 /* Running02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Running02.png; sourceTree = "<group>"; };
-		21D611EF2395A71500B3D636 /* Running00.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Running00.png; sourceTree = "<group>"; };
-		21D611F02395A71500B3D636 /* Running01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Running01.png; sourceTree = "<group>"; };
 		21D611F12395A71500B3D636 /* Running11rep1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Running11rep1.png; sourceTree = "<group>"; };
 		21D611F22395A71500B3D636 /* Running09.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Running09.png; sourceTree = "<group>"; };
 		21D611F32395A71500B3D636 /* Running08.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Running08.png; sourceTree = "<group>"; };
+		21D612322395DAE400B3D636 /* Shuriken.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Shuriken.png; sourceTree = "<group>"; };
+		21D612342396B94700B3D636 /* Spikes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Spikes.png; sourceTree = "<group>"; };
+		21D612352396B94700B3D636 /* Free Spikes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Free Spikes.png"; sourceTree = "<group>"; };
+		21D612362396B94700B3D636 /* Small Platform.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Small Platform.png"; sourceTree = "<group>"; };
+		21D6123A2396FCBA00B3D636 /* Ground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Ground.png; sourceTree = "<group>"; };
+		21D61240239700BB00B3D636 /* Background Screen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Background Screen.png"; path = "../../../../../../../Volumes/PATRIOT/Assets/Background Screen.png"; sourceTree = "<group>"; };
+		21D612422398537E00B3D636 /* Running00.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Running00.png; path = ../../../../../../../../../Volumes/PATRIOT/Assets/Running/Running/Running00.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,10 +190,16 @@
 		21D611992383361300B3D636 /* Sakura Runner */ = {
 			isa = PBXGroup;
 			children = (
+				21D61240239700BB00B3D636 /* Background Screen.png */,
+				21D6123A2396FCBA00B3D636 /* Ground.png */,
 				21D6119A2383361300B3D636 /* AppDelegate.swift */,
 				21D6119C2383361300B3D636 /* GameScene.sks */,
 				21D6119E2383361300B3D636 /* Actions.sks */,
 				21D611A02383361300B3D636 /* GameScene.swift */,
+				21D612352396B94700B3D636 /* Free Spikes.png */,
+				21D612362396B94700B3D636 /* Small Platform.png */,
+				21D612342396B94700B3D636 /* Spikes.png */,
+				21D612322395DAE400B3D636 /* Shuriken.png */,
 				21D611A22383361300B3D636 /* GameViewController.swift */,
 				21D611CC2395A71500B3D636 /* Sliding */,
 				21D611E62395A71500B3D636 /* Running */,
@@ -262,6 +278,7 @@
 		21D611E62395A71500B3D636 /* Running */ = {
 			isa = PBXGroup;
 			children = (
+				21D612422398537E00B3D636 /* Running00.png */,
 				21D611E72395A71500B3D636 /* Running05.png */,
 				21D611E82395A71500B3D636 /* Running11.png */,
 				21D611E92395A71500B3D636 /* Running10.png */,
@@ -270,8 +287,6 @@
 				21D611EC2395A71500B3D636 /* Running07.png */,
 				21D611ED2395A71500B3D636 /* Running03.png */,
 				21D611EE2395A71500B3D636 /* Running02.png */,
-				21D611EF2395A71500B3D636 /* Running00.png */,
-				21D611F02395A71500B3D636 /* Running01.png */,
 				21D611F12395A71500B3D636 /* Running11rep1.png */,
 				21D611F22395A71500B3D636 /* Running09.png */,
 				21D611F32395A71500B3D636 /* Running08.png */,
@@ -380,10 +395,14 @@
 				21D612182395A71500B3D636 /* Sliding03.png in Resources */,
 				21D612062395A71500B3D636 /* Jumping22.png in Resources */,
 				21D612112395A71500B3D636 /* Sliding18.png in Resources */,
+				21D612332395DAE400B3D636 /* Shuriken.png in Resources */,
+				21D612372396B94800B3D636 /* Spikes.png in Resources */,
 				21D612202395A71500B3D636 /* Sliding11.png in Resources */,
-				21D6122C2395A71500B3D636 /* Running01.png in Resources */,
 				21D6119F2383361300B3D636 /* Actions.sks in Resources */,
+				21D612432398537E00B3D636 /* Running00.png in Resources */,
 				21D611FA2395A71500B3D636 /* Jumping06.png in Resources */,
+				21D61241239700BB00B3D636 /* Background Screen.png in Resources */,
+				21D6123C2396FCBA00B3D636 /* Ground.png in Resources */,
 				21D612162395A71500B3D636 /* Sliding01.png in Resources */,
 				21D611F92395A71500B3D636 /* Jumping07.png in Resources */,
 				21D611F52395A71500B3D636 /* Jumping10.png in Resources */,
@@ -391,12 +410,13 @@
 				21D612012395A71500B3D636 /* Jumping15.png in Resources */,
 				21D6121B2395A71500B3D636 /* Sliding12.png in Resources */,
 				21D611FE2395A71500B3D636 /* Jumping03.png in Resources */,
-				21D6122B2395A71500B3D636 /* Running00.png in Resources */,
 				21D6120B2395A71500B3D636 /* Sliding21.png in Resources */,
 				21D612132395A71500B3D636 /* Sliding00.png in Resources */,
 				21D611F72395A71500B3D636 /* Jumping05.png in Resources */,
 				21D611FD2395A71500B3D636 /* Jumping02.png in Resources */,
+				21D612392396B94800B3D636 /* Small Platform.png in Resources */,
 				21D6120A2395A71500B3D636 /* Jumping09.png in Resources */,
+				21D612382396B94800B3D636 /* Free Spikes.png in Resources */,
 				21D612142395A71500B3D636 /* Sliding14.png in Resources */,
 				21D6122A2395A71500B3D636 /* Running02.png in Resources */,
 				21D612172395A71500B3D636 /* Sliding17.png in Resources */,
@@ -570,7 +590,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.nyu.jba343.Sakura-Runner";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -587,7 +607,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.nyu.jba343.Sakura-Runner";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
