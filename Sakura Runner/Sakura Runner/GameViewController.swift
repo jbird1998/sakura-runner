@@ -32,10 +32,23 @@ class GameViewController: UIViewController {
             view.ignoresSiblingOrder = true
             
             view.showsFPS = true
-            //view.showsNodeCount = true
+
+            view.showsNodeCount = true
+            settingButton()
         }
     }
 
+    @objc func goToSettings(sender: UIButton!) {
+          self.performSegue(withIdentifier: "gameover", sender: self)
+      }
+      
+      func settingButton() {
+          let button = UIButton(frame: CGRect(x:(self.view.frame.size.width-200)/2, y:(self.view.frame.size.height-40)/2, width: 200, height: 50))
+          let image = UIImage(named: "settings") as UIImage?
+          button.setImage(image, for: .normal)
+          button.addTarget(self, action: #selector(goToSettings), for: .touchUpInside);
+          self.view.addSubview(button)
+      }
     override var shouldAutorotate: Bool {
         return true
     }
