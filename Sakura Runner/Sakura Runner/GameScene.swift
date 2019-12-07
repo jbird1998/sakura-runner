@@ -13,22 +13,81 @@ class GameScene: SKScene {
     
     let background = SKSpriteNode(imageNamed: "gameBackground")
     let ground = SKSpriteNode(imageNamed: "ground")
-    let player = SKSpriteNode(imageNamed: "Running0.png")
+    var player : SKSpriteNode?
     var shurikenValsY = [Double]()
+    var runningFrames = [SKTexture]()
+    var firstJumpingFrames = [SKTexture]()
+    var secondJumpingFrames = [SKTexture]()
+    var slidingFrames = [SKTexture]()
+    var reverseSlideFrames = [SKTexture]()
+    
+    let swipedUp = UISwipeGestureRecognizer()
+    let swipedDown = UISwipeGestureRecognizer()
+    let tappedOnce = UITapGestureRecognizer()
     
     struct PhysicsCategory {
         static let none      : UInt32 = 0
         static let all       : UInt32 = UInt32.max
-        static let platform   : UInt32 = 0b1
         static let pointy: UInt32 = 0b10 //spikes and shuriken
         static let player_shuriken: UInt32 = 0b100
         static let player: UInt32 = 0b1000
     }
     
     override func didMove(to view: SKView) {
-        
-        physicsWorld.gravity = CGVector(dx: 0.0, dy: -1)
+                
+        physicsWorld.gravity = .zero
         physicsWorld.contactDelegate = self
+        
+        swipedUp.addTarget(self, action: #selector(GameScene.jump))
+        swipedUp.direction = .up
+        self.view!.addGestureRecognizer(swipedUp)
+        
+        swipedDown.addTarget(self, action: #selector(GameScene.slide))
+        swipedDown.direction = .down
+        self.view!.addGestureRecognizer(swipedDown)
+        
+        /*tappedOnce.addTarget(self, action:#selector(GameScene.tappedView(_:) ))
+        tappedOnce.numberOfTouchesRequired = 1
+        tappedOnce.numberOfTapsRequired = 1
+        self.view!.addGestureRecognizer(tappedOnce)*/
+        
+        let jumpAtlas = SKTextureAtlas(named: "Jumping")
+        let jumpImages = jumpAtlas.textureNames.count
+        for i in 0...jumpImages-1 {
+            if i < 10 {
+                let texture = "frame_0\(i)_delay-0.03s.png"
+                firstJumpingFrames.append(jumpAtlas.textureNamed(texture))
+            } else {
+                let texture = "frame_\(i)_delay-0.03s.png"
+                secondJumpingFrames.append(jumpAtlas.textureNamed(texture))
+            }
+        }
+        
+        let runAtlas = SKTextureAtlas(named: "Running")
+        let runImages = runAtlas.textureNames.count
+        for i in 0...runImages-1 {
+            if i < 10 {
+                let texture = "frame_0\(i)_delay-0.03s.png"
+                runningFrames.append(runAtlas.textureNamed(texture))
+            } else {
+                let texture = "frame_\(i)_delay-0.03s.png"
+                runningFrames.append(runAtlas.textureNamed(texture))
+            }
+        }
+        
+        let slidingAtlas = SKTextureAtlas(named: "Sliding")
+        let slidingImages = jumpAtlas.textureNames.count
+        for i in 0...slidingImages-1 {
+            if i < 10 {
+                let texture = "frame_0\(i)_delay-0.03s.png"
+                slidingFrames.append(slidingAtlas.textureNamed(texture))
+                reverseSlideFrames.append(slidingAtlas.textureNamed(texture))
+            } else {
+                let texture = "frame_\(i)_delay-0.03s.png"
+                slidingFrames.append(slidingAtlas.textureNamed(texture))
+            }
+        }
+        reverseSlideFrames = reverseSlideFrames.reversed()
         
         background.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         background.size.height = frame.size.height
@@ -40,21 +99,10 @@ class GameScene: SKScene {
         ground.size = CGSize(width: size.width, height: 5*size.height/32)
         ground.position = CGPoint(x: 0, y: -7*size.height/16)
         ground.zPosition = -1
-        ground.physicsBody = SKPhysicsBody(rectangleOf: ground.size)
-        ground.physicsBody?.isDynamic = false
-        ground.physicsBody?.categoryBitMask = PhysicsCategory.platform
-        ground.physicsBody?.collisionBitMask = PhysicsCategory.player
         addChild(ground)
         
-        player.size = CGSize(width: size.width/4, height: size.height/2)
-        player.position = CGPoint(x: player.size.width-size.width/2, y: ground.position.y+ground.size.height+player.size.height/16)
-        player.zPosition = 0
-        player.physicsBody = SKPhysicsBody(texture: SKTexture.init(imageNamed: "Running0.png"), size: player.size)
-        player.physicsBody?.isDynamic = false
-        player.physicsBody?.categoryBitMask = PhysicsCategory.player
-        player.physicsBody?.collisionBitMask = PhysicsCategory.platform
-        player.physicsBody?.contactTestBitMask = PhysicsCategory.pointy
-        addChild(player)
+        addRunner()
+        //addChild(player)
         
         let numPoints = 5
         let doubleH = Double(size.height)
@@ -96,9 +144,11 @@ class GameScene: SKScene {
         shur.zPosition = 0
         
         shur.physicsBody = SKPhysicsBody(rectangleOf: shur.size)
-        shur.physicsBody?.isDynamic = false
+        shur.physicsBody?.isDynamic = true
         shur.physicsBody?.categoryBitMask = PhysicsCategory.pointy
         shur.physicsBody?.contactTestBitMask = PhysicsCategory.player
+        shur.physicsBody?.collisionBitMask = PhysicsCategory.player
+        shur.physicsBody?.usesPreciseCollisionDetection = true
         
         addChild(shur)
         
@@ -117,16 +167,16 @@ class GameScene: SKScene {
     func spawnPlatform() {
         let plat = SKSpriteNode(imageNamed: "small_platform")
         
-        plat.size = CGSize(width: size.width/8, height: size.height/20)
+        plat.size = CGSize(width: size.width/10, height: size.height/20)
         
         plat.position = CGPoint(x: size.width + plat.size.width/2, y: 0)
         
         plat.zPosition = 1
         
-        plat.physicsBody = SKPhysicsBody(rectangleOf: plat.size)
+        /*plat.physicsBody = SKPhysicsBody(rectangleOf: plat.size)
         plat.physicsBody?.isDynamic = false
         plat.physicsBody?.categoryBitMask = PhysicsCategory.platform
-        plat.physicsBody?.collisionBitMask = PhysicsCategory.player
+        plat.physicsBody?.collisionBitMask = PhysicsCategory.player*/
         
         addChild(plat)
         
@@ -148,6 +198,8 @@ class GameScene: SKScene {
             topSpike.physicsBody?.isDynamic = false
             topSpike.physicsBody?.categoryBitMask = PhysicsCategory.pointy
             topSpike.physicsBody?.contactTestBitMask = PhysicsCategory.player
+            topSpike.physicsBody?.collisionBitMask = PhysicsCategory.player
+            topSpike.physicsBody?.usesPreciseCollisionDetection = true
             addChild(topSpike)
             
             let topMove = SKAction.move(to: CGPoint(x: -topSpike.size.width/2-size.width/2, y: topSpike.position.y), duration: TimeInterval(duration))
@@ -163,6 +215,8 @@ class GameScene: SKScene {
             bottomSpike.physicsBody?.isDynamic = false
             bottomSpike.physicsBody?.categoryBitMask = PhysicsCategory.pointy
             bottomSpike.physicsBody?.contactTestBitMask = PhysicsCategory.player
+            bottomSpike.physicsBody?.collisionBitMask = PhysicsCategory.player
+            bottomSpike.physicsBody?.usesPreciseCollisionDetection = true
             addChild(bottomSpike)
             
             let bottomMove = SKAction.move(to: CGPoint(x: -bottomSpike.size.width/2-size.width/2, y: bottomSpike.position.y), duration: TimeInterval(duration))
@@ -171,40 +225,162 @@ class GameScene: SKScene {
         
     }
     
-    func touchDown(atPoint pos : CGPoint) {
+    func cleanScene() {
+        if let s = self.view?.scene {
+            self.children.forEach {
+                $0.removeAllActions()
+                $0.removeAllChildren()
+                $0.removeFromParent()
+            }
+            s.removeAllActions()
+            s.removeAllChildren()
+            s.removeFromParent()
+        }
+    }
+    
+    override func willMove(from view: SKView) {
+        cleanScene()
+        self.removeAllChildren()
+        self.removeAllActions()
+    }
+    
+    func addRunner() {
+        //add the player with first frame
+        let newPlayer = SKSpriteNode(texture: runningFrames[0])
+        newPlayer.size = CGSize(width: size.width/7, height: size.height/3)
+        newPlayer.position = CGPoint(x: newPlayer.size.width-size.width/2, y: ground.position.y+ground.size.height+newPlayer.size.height/4)
+        newPlayer.zPosition = 0
+        newPlayer.physicsBody = SKPhysicsBody(texture: runningFrames[0], size: runningFrames[0].size())
+        newPlayer.physicsBody?.isDynamic = false
+        newPlayer.physicsBody?.categoryBitMask = PhysicsCategory.player
+        //newPlayer.physicsBody?.collisionBitMask = PhysicsCategory.platform
+        newPlayer.physicsBody?.contactTestBitMask = PhysicsCategory.pointy
+        addChild(newPlayer)
+        player?.removeFromParent()
+        player = newPlayer
         
+        //now to animate
+        playRunningAnimation()
     }
     
-    func touchMoved(toPoint pos : CGPoint) {
+    func playRunningAnimation() {
+        player!.removeAllActions()
+        player!.run(runningAnimation(), withKey: "runningRunner")
+    }
+    
+    func runningAnimation() -> SKAction {
+        player!.size = CGSize(width: size.width/7, height: size.height/3)
+        return SKAction.repeatForever(SKAction.animate(with: runningFrames, timePerFrame: 0.05, resize: false, restore: true))
+    }
+    
+    func addJumper() {
+        //add the player with first frame
+        let newPlayer = SKSpriteNode(texture: firstJumpingFrames[9])
+        newPlayer.size = player!.size //CGSize(width: size.width/6, height: size.width/6)
+        newPlayer.position = player!.position
+        newPlayer.zPosition = 0
+        newPlayer.physicsBody = SKPhysicsBody(texture: firstJumpingFrames[9], size: firstJumpingFrames[9].size())
+        newPlayer.physicsBody?.isDynamic = false
+        newPlayer.physicsBody?.categoryBitMask = PhysicsCategory.player
+        //newPlayer.physicsBody?.collisionBitMask = PhysicsCategory.platform
+        newPlayer.physicsBody?.contactTestBitMask = PhysicsCategory.pointy
+        addChild(newPlayer)
+        player!.removeFromParent()
+        player = newPlayer
         
+        //now to animate
+        playJumpingAnimation()
     }
     
-    func touchUp(atPoint pos : CGPoint) {
+    func playJumpingAnimation() {
+        let up = SKAction.moveBy(x: 0, y: size.height/2, duration: TimeInterval(exactly: 0.55)!)
+        let down = SKAction.moveBy(x: 0, y: -size.height/2, duration: TimeInterval(exactly: 0.55)!)
+        let animationUp = SKAction.animate(with: firstJumpingFrames, timePerFrame: 0.05, resize: false, restore: true)
+        let animationDown = SKAction.animate(with: secondJumpingFrames, timePerFrame: 0.05, resize: false, restore: true)
+        let animatedJumpUp = SKAction.group([up, animationUp])
+        let animatedJumpDown = SKAction.group([down, animationDown])
+        let totalAction = SKAction.sequence([animatedJumpUp, animatedJumpDown, runningAnimation()])
+        player!.removeAllActions()
+        player!.run(totalAction, withKey: "jumpingRunner")
+    }
+    
+    func addSlider() {
+        //add the player with first frame
+        let newPlayer = SKSpriteNode(texture: slidingFrames[10])
+        newPlayer.size = player!.size //CGSize(width: size.height/3, height: size.width/6)
+        newPlayer.position = player!.position
+        newPlayer.zPosition = 0
+        newPlayer.physicsBody = SKPhysicsBody(texture: slidingFrames[10], size: slidingFrames[10].size())
+        newPlayer.physicsBody?.isDynamic = false
+        newPlayer.physicsBody?.categoryBitMask = PhysicsCategory.player
+        //newPlayer.physicsBody?.collisionBitMask = PhysicsCategory.platform
+        newPlayer.physicsBody?.contactTestBitMask = PhysicsCategory.pointy
+        addChild(newPlayer)
+        player!.removeFromParent()
+        player = newPlayer
         
+        //now to animate
+        playSlidingAnimation()
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        
-        for t in touches { self.touchDown(atPoint: t.location(in: self)) }
+    func playSlidingAnimation() {
+        let down = SKAction.moveBy(x: 0, y: -player!.size.height/4, duration: TimeInterval(exactly: 1.0)!)
+        let up = SKAction.moveBy(x: 0, y: player!.size.height/4, duration: TimeInterval(exactly: 0.5)!)
+        //let slide = SKAction.sequence([down, up])
+        let animation = SKAction.animate(with: slidingFrames, timePerFrame: 0.05, resize: false, restore: true)
+        let animatedSlide = SKAction.group([down, animation])
+        let reversedAnim = SKAction.animate(with: reverseSlideFrames, timePerFrame: 0.05, resize: false, restore: true)
+        let reversedSlide = SKAction.group([up, reversedAnim])
+        let totalAction = SKAction.sequence([animatedSlide, reversedSlide, runningAnimation()])
+        player!.removeAllActions()
+        player!.run(totalAction, withKey: "slidingRunner")
     }
     
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
+    @objc func run() {
+        print("Run")
+        addRunner()
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
+    @objc func jump() {
+        print("Jump")
+        //player.removeAction(forKey: "runningRunner")
+        addJumper()
+        //run()
     }
     
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
+    @objc func slide() {
+        print("Slide")
+        //player.removeAction(forKey: "runningRunner")
+        addSlider()
+        //run()
     }
-    
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
     }
 }
 
-extension GameScene: SKPhysicsContactDelegate {}
+extension GameScene: SKPhysicsContactDelegate {
+    func didBegin(_ contact: SKPhysicsContact) {
+        print("CONTACT")
+        var firstBody: SKPhysicsBody
+        var secondBody: SKPhysicsBody
+        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+            firstBody = contact.bodyA
+            secondBody = contact.bodyB
+        } else {
+            firstBody = contact.bodyB
+            secondBody = contact.bodyA
+        }
+        
+        if ((firstBody.categoryBitMask & PhysicsCategory.pointy != 0) && (secondBody.categoryBitMask & PhysicsCategory.player != 0)) {
+            
+            print("HIT")
+            
+            player?.removeAllActions()
+            player?.removeFromParent()
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "gameover"), object: nil)
+            
+        }
+    }
+}

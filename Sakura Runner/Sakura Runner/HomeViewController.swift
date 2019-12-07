@@ -37,13 +37,15 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         Sound.playSound()
-        let value = UIInterfaceOrientation.landscapeLeft.rawValue
-        UIDevice.current.setValue(value, forKey: "orientation")
+        //let value = UIInterfaceOrientation.landscapeLeft.rawValue
+        //UIDevice.current.setValue(value, forKey: "orientation")
         assignbackground()
         settingButton()
         startButton()
         sakuraAnimate()
     }
+    
+    
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .landscapeRight
@@ -119,9 +121,14 @@ class HomeViewController: UIViewController {
             let runnerAtlas = SKTextureAtlas(named: "Running")
             var runFrames: [SKTexture] = []
             let num = runnerAtlas.textureNames.count
-            for i in 1...num-1 {
-                let runnerTexture = "Running\(i)"
-                runFrames.append(runnerAtlas.textureNamed(runnerTexture))
+            for i in 0...num-1 {
+                if i < 10 {
+                    let runnerTexture = "frame_0\(i)_delay-0.03s.png"
+                    runFrames.append(runnerAtlas.textureNamed(runnerTexture))
+                } else {
+                    let runnerTexture = "frame_\(i)_delay-0.03s.png"
+                    runFrames.append(runnerAtlas.textureNamed(runnerTexture))
+                }
             }
             runnerFrames = runFrames
             let firstFrame = runnerFrames[0]

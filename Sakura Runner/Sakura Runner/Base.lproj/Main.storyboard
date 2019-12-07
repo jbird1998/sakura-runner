@@ -13,7 +13,7 @@
         <!--Game View Controller-->
         <scene sceneID="tXr-a1-R10">
             <objects>
-                <viewController id="BV1-FR-VrT" customClass="GameViewController" customModule="Sakura_Runner" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GameViewController" id="BV1-FR-VrT" customClass="GameViewController" customModule="Sakura_Runner" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="3se-qz-xqx" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -22,7 +22,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="sdf-W9-g5J"/>
                     <connections>
-                        <segue destination="NJU-7K-ulU" kind="show" identifier="gameover" id="aSp-hG-thu"/>
+                        <segue destination="NJU-7K-ulU" kind="showDetail" identifier="gameover" id="aSp-hG-thu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
@@ -41,7 +41,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="RQP-YS-K9L"/>
                     <connections>
-                        <segue destination="hTV-O0-d3d" kind="show" identifier="backHome2" id="CMd-Jh-Dwb"/>
+                        <segue destination="hTV-O0-d3d" kind="showDetail" identifier="backHome2" id="CMd-Jh-Dwb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GLd-B0-jYf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -60,8 +60,9 @@
                     </view>
                     <navigationItem key="navigationItem" id="UJN-RM-ija"/>
                     <connections>
-                        <segue destination="BV1-FR-VrT" kind="show" identifier="start" id="8pc-D2-4X2"/>
-                        <segue destination="ngP-o7-wrK" kind="show" identifier="setting" id="pqZ-Bu-wnj"/>
+                        <segue destination="BV1-FR-VrT" kind="showDetail" identifier="start" id="8pc-D2-4X2"/>
+                        <segue destination="ngP-o7-wrK" kind="showDetail" identifier="setting" id="pqZ-Bu-wnj"/>
+                        <segue destination="NJU-7K-ulU" kind="showDetail" identifier="gameover" id="bzU-7v-JrT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bq2-Td-pv2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -80,7 +81,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="ZS7-KY-88B"/>
                     <connections>
-                        <segue destination="hTV-O0-d3d" kind="show" identifier="backHome" id="a5K-r1-5d0"/>
+                        <segue destination="hTV-O0-d3d" kind="showDetail" identifier="backHome" id="a5K-r1-5d0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oAX-pE-4Ie" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -90,5 +91,6 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="a5K-r1-5d0"/>
+        <segue reference="aSp-hG-thu"/>
     </inferredMetricsTieBreakers>
 </document>

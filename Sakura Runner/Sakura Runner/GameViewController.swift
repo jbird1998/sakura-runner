@@ -14,7 +14,7 @@ class GameViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "gameover"), object: nil)
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
             if let scene = SKScene(fileNamed: "GameScene") {
@@ -29,8 +29,23 @@ class GameViewController: UIViewController {
             
             //view.showsFPS = true
             //view.showsNodeCount = true
+            
             settingButton()
         }
+        NotificationCenter.default.addObserver(self, selector: #selector(GameViewController.doaSegue), name: NSNotification.Name(rawValue: "gameover"), object: nil)
+
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        if let view = self.view as? SKView {
+            view.presentScene(nil)
+        }
+    }
+    
+    @objc func doaSegue(){
+        performSegue(withIdentifier: "gameover", sender: self)
+        self.view.removeFromSuperview()
+        self.view = nil
     }
 
     @objc func goToSettings(sender: UIButton!) {
