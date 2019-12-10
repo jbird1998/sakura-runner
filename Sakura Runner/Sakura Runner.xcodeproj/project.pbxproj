@@ -21,6 +21,9 @@
 		21D61273239F18D800B3D636 /* Jumping.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 21D61270239F18D800B3D636 /* Jumping.atlas */; };
 		21D61274239F18D800B3D636 /* Running.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 21D61271239F18D800B3D636 /* Running.atlas */; };
 		21D61275239F18D800B3D636 /* Sliding.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 21D61272239F18D800B3D636 /* Sliding.atlas */; };
+		21D6128F239F610500B3D636 /* njnaruto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 21D6128E239F610500B3D636 /* njnaruto.ttf */; };
+		21D61296239F947F00B3D636 /* Jump.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 21D61294239F947F00B3D636 /* Jump.mp3 */; };
+		21D61297239F947F00B3D636 /* Slide.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 21D61295239F947F00B3D636 /* Slide.mp3 */; };
 		98B068DF2398C5C60084E470 /* music.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 98B068DE2398C5C60084E470 /* music.mp3 */; };
 		98B068E12398D4DF0084E470 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B068E02398D4DF0084E470 /* Sound.swift */; };
 		98E058E82398E13B009F94D8 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 98E058E72398E13B009F94D8 /* logo.png */; };
@@ -44,6 +47,9 @@
 		21D61270239F18D800B3D636 /* Jumping.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Jumping.atlas; sourceTree = "<group>"; };
 		21D61271239F18D800B3D636 /* Running.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Running.atlas; sourceTree = "<group>"; };
 		21D61272239F18D800B3D636 /* Sliding.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Sliding.atlas; sourceTree = "<group>"; };
+		21D6128E239F610500B3D636 /* njnaruto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = njnaruto.ttf; sourceTree = "<group>"; };
+		21D61294239F947F00B3D636 /* Jump.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Jump.mp3; sourceTree = "<group>"; };
+		21D61295239F947F00B3D636 /* Slide.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Slide.mp3; sourceTree = "<group>"; };
 		98B068DE2398C5C60084E470 /* music.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = music.mp3; sourceTree = "<group>"; };
 		98B068E02398D4DF0084E470 /* Sound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
 		98E058E72398E13B009F94D8 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
@@ -80,6 +86,9 @@
 		21D611992383361300B3D636 /* Sakura Runner */ = {
 			isa = PBXGroup;
 			children = (
+				21D61294239F947F00B3D636 /* Jump.mp3 */,
+				21D61295239F947F00B3D636 /* Slide.mp3 */,
+				21D6128E239F610500B3D636 /* njnaruto.ttf */,
 				21D61270239F18D800B3D636 /* Jumping.atlas */,
 				21D61271239F18D800B3D636 /* Running.atlas */,
 				21D61272239F18D800B3D636 /* Sliding.atlas */,
@@ -163,6 +172,7 @@
 			files = (
 				21D611A62383361300B3D636 /* Main.storyboard in Resources */,
 				21D61274239F18D800B3D636 /* Running.atlas in Resources */,
+				21D61296239F947F00B3D636 /* Jump.mp3 in Resources */,
 				21D6119D2383361300B3D636 /* GameScene.sks in Resources */,
 				21D61273239F18D800B3D636 /* Jumping.atlas in Resources */,
 				98E058E82398E13B009F94D8 /* logo.png in Resources */,
@@ -170,6 +180,8 @@
 				21D61275239F18D800B3D636 /* Sliding.atlas in Resources */,
 				21D611A82383361400B3D636 /* Assets.xcassets in Resources */,
 				21D612672399FDCA00B3D636 /* Runner.png in Resources */,
+				21D61297239F947F00B3D636 /* Slide.mp3 in Resources */,
+				21D6128F239F610500B3D636 /* njnaruto.ttf in Resources */,
 				21D6119F2383361300B3D636 /* Actions.sks in Resources */,
 				98E058EA2398E167009F94D8 /* LaunchScreen.xib in Resources */,
 			);
