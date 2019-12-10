@@ -44,8 +44,11 @@
 	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>njnaruto.ttf</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>

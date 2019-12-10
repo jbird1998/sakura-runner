@@ -46,6 +46,10 @@ class SettingsScene: SKScene {
        musicButton.size.height = 50
        musicButton.position = CGPoint(x:(frame.width+250)/2, y: (frame.height-30)/2)
         addChild(musicButton)
+        
+        let sakuraAnimation = sakuraAnimate()
+        sakuraAnimation.name = "sakuraLayer"
+        self.view?.layer.addSublayer(sakuraAnimation)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -54,6 +58,11 @@ class SettingsScene: SKScene {
         let touchedNode = self.atPoint(positionInScene)
         if let name = touchedNode.name {
             if name == "returnHome" {
+                for layer in (self.view?.layer.sublayers!)! {
+                    if layer.name == "sakuraLayer" {
+                        layer.removeFromSuperlayer()
+                    }
+                }
                 let homeScene = HomeScene(size: frame.size)
                 
                 self.view?.presentScene(homeScene)
@@ -73,6 +82,24 @@ class SettingsScene: SKScene {
             }
         }
  
+    }
+    
+    func sakuraAnimate() -> CAEmitterLayer {
+        let sakuraCell = CAEmitterCell()
+        sakuraCell.contents = UIImage(named: "flower")?.cgImage
+        sakuraCell.lifetime = 7
+        sakuraCell.scale = 0.4
+        sakuraCell.birthRate = 1
+        sakuraCell.velocity = CGFloat(25)
+        sakuraCell.emissionLongitude = 180*(.pi/180)
+        sakuraCell.spin = -0.5
+        let sakuraLayer = CAEmitterLayer()
+        sakuraLayer.emitterShape = CAEmitterLayerEmitterShape.line
+        sakuraLayer.emitterPosition = CGPoint(x: frame.width/2, y: 50)
+        sakuraLayer.emitterSize = CGSize(width: frame.width, height: 2)
+        sakuraLayer.emitterCells = [sakuraCell]
+        return sakuraLayer
+        
     }
     
 

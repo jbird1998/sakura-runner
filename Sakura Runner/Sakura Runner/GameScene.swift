@@ -16,20 +16,26 @@ class GameScene: SKScene {
     var scoreLabel = SKLabelNode()
     let background = SKSpriteNode(imageNamed: "gameBackground")
     let ground = SKSpriteNode(imageNamed: "ground")
-    var player : SKSpriteNode?
+    var player: SKSpriteNode?
     var shurikenValsY = [Double]()
     var runningFrames = [SKTexture]()
     var firstJumpingFrames = [SKTexture]()
     var secondJumpingFrames = [SKTexture]()
     var slidingFrames = [SKTexture]()
     var reverseSlideFrames = [SKTexture]()
+    var isPoweredUp = false
+    var originSize: CGSize?
+    var originPoint: CGPoint?
+    let gameSpeedDefault = 5.0
+    var gameSpeed = 4.0
+    var sakuraLabel: SKLabelNode?
     
     let swipedUp = UISwipeGestureRecognizer()
     let swipedDown = UISwipeGestureRecognizer()
     let tappedOnce = UITapGestureRecognizer()
     var score = Int(0) {
         didSet {
-            scoreLabel.text = "Distance: \(score)"
+            scoreLabel.text = "\(score)m"
         }
     }
     
@@ -37,7 +43,7 @@ class GameScene: SKScene {
         static let none      : UInt32 = 0
         static let all       : UInt32 = UInt32.max
         static let pointy: UInt32 = 0b10 //spikes and shuriken
-        static let player_shuriken: UInt32 = 0b100
+        static let sakura: UInt32 = 0b100
         static let player: UInt32 = 0b1000
     }
     
@@ -112,18 +118,21 @@ class GameScene: SKScene {
         ground.zPosition = -1
         addChild(ground)
         
-        scoreLabel = SKLabelNode(fontNamed: "HelveticaNeue")
-        scoreLabel.text = "Distance: 0"
+        originSize = CGSize(width: size.width/7, height: size.height/3)
+        originPoint = CGPoint(x: originSize!.width-size.width/2, y: ground.position.y+ground.size.height+originSize!.height/4)
+        
+        scoreLabel = SKLabelNode(fontNamed: "Ninja Naruto")
+        scoreLabel.text = "0m"
         scoreLabel.fontSize = 30
         scoreLabel.fontColor = SKColor.black
         scoreLabel.zPosition = 5
-        scoreLabel.position = CGPoint(x: frame.midX-250, y: frame.midY+150)
+        scoreLabel.position = CGPoint(x: frame.midX-350, y: frame.midY+150)
         addChild(scoreLabel)
         addRunner()
         //addChild(player)
         
         let numPoints = 5
-        let doubleH = Double(size.height)
+        let doubleH = Double(size.height)*2/3
         let fixed1 = Double(numPoints)
         let fixed2 = doubleH/fixed1
         for index in -numPoints/2+1...numPoints/2 {
@@ -135,7 +144,9 @@ class GameScene: SKScene {
                 SKAction.run(spawnShuriken),
                 SKAction.wait(forDuration: randomTime()),
                 SKAction.run(spawnSpikes),
-                SKAction.wait(forDuration: randomTime())
+                SKAction.wait(forDuration: randomTime()),
+                SKAction.run(spawnSakura),
+                SKAction.wait(forDuration: TimeInterval(exactly: 0.5)!)
                 ])
         ))
         
@@ -143,7 +154,7 @@ class GameScene: SKScene {
 
     
     func randomTime() -> Double {
-        return Double.random(in: 1...5)
+        return Double.random(in: gameSpeed*2/5...gameSpeed*4/5)
     }
     
     func randomIndicator() -> Int {
@@ -151,8 +162,22 @@ class GameScene: SKScene {
         //Key: 0 -> no spikes, 1 -> top spikes, 2 -> bottom spikes, 3 -> both spikes
     }
     
+    func randomSakura() -> Int {
+        return Int.random(in: 0...5)
+    }
+    
     func randomShurikenY() -> CGFloat {
         return CGFloat(shurikenValsY[Int.random(in: 0..<shurikenValsY.count)])
+    }
+    
+    func createSakuraLabel() {
+        sakuraLabel = SKLabelNode(fontNamed: "Ninja Naruto")
+        sakuraLabel?.text = "Sakura Power!"
+        sakuraLabel?.fontSize = 64
+        sakuraLabel?.fontColor = SKColor.magenta
+        sakuraLabel?.zPosition = 5
+        sakuraLabel?.position = CGPoint(x: frame.midX, y: frame.midY+125)
+        addChild(sakuraLabel!)
     }
     
     func spawnShuriken() {
@@ -162,10 +187,45 @@ class GameScene: SKScene {
         }
     }
     
+    func spawnSakura() {
+        let i = randomSakura()
+        if i == 1 && !isPoweredUp {
+            spawnSakuraMain()
+        }
+    }
+    
+    func spawnSakuraMain() {
+        let sakura = SKSpriteNode(imageNamed: "flower")
+        
+        sakura.size = CGSize(width: size.height/10, height: size.height/10)
+        
+        let posY = randomShurikenY()
+        sakura.position = CGPoint(x: size.width + sakura.size.width/2, y: posY)
+        
+        sakura.zPosition = 0
+        
+        sakura.physicsBody = SKPhysicsBody(rectangleOf: sakura.size)
+        sakura.physicsBody?.isDynamic = true
+        sakura.physicsBody?.categoryBitMask = PhysicsCategory.sakura
+        sakura.physicsBody?.contactTestBitMask = PhysicsCategory.player
+        sakura.physicsBody?.collisionBitMask = PhysicsCategory.player
+        sakura.physicsBody?.usesPreciseCollisionDetection = true
+        
+        addChild(sakura)
+        
+        let duration = CGFloat(gameSpeed)
+        
+        let move = SKAction.move(to: CGPoint(x: -sakura.size.width/2-size.width/2, y: posY),
+                                 duration: TimeInterval(duration))
+        let remove = SKAction.removeFromParent()
+        sakura.run(SKAction.sequence([move, remove]))
+        
+    }
+    
     func spawnShurikenMain() {
         let shur = SKSpriteNode(imageNamed: "shuriken")
         
-        shur.size = CGSize(width: size.height/40, height: size.height/40)
+        shur.size = CGSize(width: size.height/10, height: size.height/10)
         
         let posY = randomShurikenY()
         shur.position = CGPoint(x: size.width + shur.size.width/2, y: posY)
@@ -181,7 +241,7 @@ class GameScene: SKScene {
         
         addChild(shur)
         
-        let duration = CGFloat(5.0)
+        let duration = CGFloat(gameSpeed)
         
         let spin = SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(2*Double.pi), duration: 1.0))
         shur.run(spin)
@@ -195,7 +255,7 @@ class GameScene: SKScene {
     
     func spawnSpikes() {
         
-        let duration = CGFloat(6.0)
+        let duration = CGFloat(gameSpeed)
         
         let remove = SKAction.removeFromParent()
         
@@ -203,7 +263,7 @@ class GameScene: SKScene {
         
         if (spikeNum == 1) {
             let topSpike = SKSpriteNode(imageNamed: "free_spikes")
-            topSpike.size = CGSize(width: size.width/10, height: size.height/20)
+            topSpike.size = CGSize(width: size.width/15, height: size.height/15)
             topSpike.position = CGPoint(x: size.width + topSpike.size.width/2, y: ground.position.y+ground.size.height/2+topSpike.size.height/2)
             topSpike.zPosition = 0
             topSpike.physicsBody = SKPhysicsBody(rectangleOf: topSpike.size)
@@ -243,8 +303,8 @@ class GameScene: SKScene {
     func addRunner() {
         //add the player with first frame
         let newPlayer = SKSpriteNode(texture: runningFrames[0])
-        newPlayer.size = CGSize(width: size.width/7, height: size.height/3)
-        newPlayer.position = CGPoint(x: newPlayer.size.width-size.width/2, y: ground.position.y+ground.size.height+newPlayer.size.height/4)
+        newPlayer.size = originSize!
+        newPlayer.position = originPoint!
         newPlayer.zPosition = 0
         newPlayer.physicsBody = SKPhysicsBody(rectangleOf: newPlayer.size)
         newPlayer.physicsBody?.isDynamic = false
@@ -259,14 +319,52 @@ class GameScene: SKScene {
         playRunningAnimation()
     }
     
+    func addSakuraPowerRunner() {
+        //TODO: Change SKSpriteNode texture
+        let newPlayer = SKSpriteNode(texture: runningFrames[0])
+        newPlayer.size = CGSize(width: size.width/7, height: size.height/3)
+        newPlayer.position = originPoint!
+        newPlayer.zPosition = 0
+        newPlayer.physicsBody = SKPhysicsBody(rectangleOf: newPlayer.size)
+        newPlayer.physicsBody?.isDynamic = false
+        newPlayer.physicsBody?.categoryBitMask = PhysicsCategory.none
+        //newPlayer.physicsBody?.collisionBitMask = PhysicsCategory.platform
+        newPlayer.physicsBody?.contactTestBitMask = PhysicsCategory.pointy
+        addChild(newPlayer)
+        player?.removeFromParent()
+        player = newPlayer
+        
+        //now to animate
+        playSakuraPowerRunningAnimation()
+    }
+    
     func playRunningAnimation() {
         player!.removeAllActions()
         player!.run(runningAnimation(), withKey: "runningRunner")
     }
     
+    func playSakuraPowerRunningAnimation() {
+        player!.removeAllActions()
+        player!.run(sakuraPowerRunningAnimation(), withKey: "sakuraPowerRunner")
+    }
+    
     func runningAnimation() -> SKAction {
         player!.size = CGSize(width: size.width/7, height: size.height/3)
         return SKAction.repeatForever(SKAction.animate(with: runningFrames, timePerFrame: 0.05, resize: false, restore: true))
+    }
+    
+    func sakuraPowerRunningAnimation() -> SKAction {
+        //TODO: Replace frames with sakura power frames
+        player!.size = CGSize(width: size.width/7, height: size.height/3)
+        let resetStatus = SKAction.run {
+            self.isPoweredUp = false
+            self.sakuraLabel!.removeAllActions()
+            self.sakuraLabel!.removeFromParent()
+            self.addRunner()
+        }
+        let animation = SKAction.repeat(SKAction.animate(with: runningFrames, timePerFrame: 0.02, resize: false, restore: true), count: 25)
+        let seq = SKAction.sequence([animation, resetStatus])
+        return seq
     }
     
     func addJumper() {
@@ -297,7 +395,7 @@ class GameScene: SKScene {
         let animatedJumpDown = SKAction.group([down, animationDown])
         let totalAction = SKAction.sequence([animatedJumpUp, animatedJumpDown, runningAnimation()])
         player!.removeAllActions()
-        player!.run(totalAction, withKey: "jumpingRunner")
+        player!.run(totalAction)
     }
     
     func addSlider() {
@@ -329,33 +427,51 @@ class GameScene: SKScene {
         let reversedSlide = SKAction.group([up, reversedAnim])
         let totalAction = SKAction.sequence([animatedSlide, reversedSlide, runningAnimation()])
         player!.removeAllActions()
-        player!.run(totalAction, withKey: "slidingRunner")
+        player!.run(totalAction)
     }
     
-    @objc func run() {
+    /*@objc func run() {
         print("Run")
         addRunner()
-    }
+    }*/
     
     @objc func jump() {
         print("Jump")
-        //player.removeAction(forKey: "runningRunner")
-        addJumper()
-        //run()
+        if abs(player!.position.x - originPoint!.x) < 1
+            && abs(player!.position.y - originPoint!.y) < 1 && !isPoweredUp {
+            if Sound.isVolumeOn {
+                Sound.playJumpSound()
+            }
+            addJumper()
+        }
+        
     }
     
     @objc func slide() {
         print("Slide")
-        //player.removeAction(forKey: "runningRunner")
-        addSlider()
-        //run()
+        if abs(player!.position.x - originPoint!.x) < 1
+            && abs(player!.position.y - originPoint!.y) < 1 && !isPoweredUp {
+            if Sound.isVolumeOn {
+                Sound.playSlideSound()
+            }
+            addSlider()
+        }
     }
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
+        if score <= Int((gameSpeedDefault-1.0)*500) {
+            gameSpeed = gameSpeedDefault - Double(score/Int(500))
+        } else {
+            gameSpeed = 1.0
+        }
         if isStarted == true{
             if isDead == false {
-                score = score+1;
+                if !isPoweredUp {
+                    score = score+1
+                } else {
+                    score = score+2
+                }
             }
         }
     }
@@ -376,13 +492,23 @@ extension GameScene: SKPhysicsContactDelegate {
         
         if ((firstBody.categoryBitMask & PhysicsCategory.pointy != 0) && (secondBody.categoryBitMask & PhysicsCategory.player != 0)) {
             
-            print("HIT")
+            print("HIT POINTY")
             
             player?.removeAllActions()
             player?.removeFromParent()
             let gameOver = GameOverScene(size: self.size)
             gameOver.score = score
             self.view?.presentScene(gameOver)
+        } else if ((firstBody.categoryBitMask & PhysicsCategory.sakura != 0) && (secondBody.categoryBitMask & PhysicsCategory.player != 0)) {
+            
+            print("HIT SAKURA")
+            
+            if let sakura = firstBody.node as? SKSpriteNode {
+                sakura.removeFromParent()
+            }
+            isPoweredUp = true
+            createSakuraLabel()
+            addSakuraPowerRunner()
         }
     }
 }

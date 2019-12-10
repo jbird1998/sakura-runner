@@ -44,6 +44,7 @@ class HomeScene: SKScene {
         addChild(settingButton)
         
         let sakuraAnimation = sakuraAnimate()
+        sakuraAnimation.name = "sakuraLayer"
         self.view?.layer.addSublayer(sakuraAnimation)
         
         buildRunner()
@@ -80,10 +81,20 @@ class HomeScene: SKScene {
         let touchedNode = self.atPoint(positionInScene)
         if let name = touchedNode.name {
             if name == "start" {
+                for layer in (self.view?.layer.sublayers!)! {
+                    if layer.name == "sakuraLayer" {
+                        layer.removeFromSuperlayer()
+                    }
+                }
                 let gameScene = GameScene(fileNamed: "GameScene")
                 self.view?.presentScene(gameScene)
             }
             if name == "setting" {
+                for layer in (self.view?.layer.sublayers!)! {
+                    if layer.name == "sakuraLayer" {
+                        layer.removeFromSuperlayer()
+                    }
+                }
                 let settingScene = SettingsScene(size: frame.size)
                 self.view?.presentScene(settingScene)
             }
