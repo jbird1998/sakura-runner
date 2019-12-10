@@ -22,7 +22,9 @@ class HomeScene: SKScene {
        background.position = CGPoint(x: frame.midX, y: frame.midY)
        background.zPosition = -2
        addChild(background)
-        
+        if Sound.isVolumeOn {
+            Sound.playSound()
+        }
         let startButton = SKSpriteNode(imageNamed: "start")
         startButton.anchorPoint = CGPoint(x: 0, y: 0)
         startButton.name = "start"
@@ -78,11 +80,11 @@ class HomeScene: SKScene {
         let touchedNode = self.atPoint(positionInScene)
         if let name = touchedNode.name {
             if name == "start" {
-                let gameScene = GameScene(size: self.size)
+                let gameScene = GameScene(fileNamed: "GameScene")
                 self.view?.presentScene(gameScene)
             }
-            else if name == "setting" {
-                let settingScene = SettingsScene(size: self.size)
+            if name == "setting" {
+                let settingScene = SettingsScene(size: frame.size)
                 self.view?.presentScene(settingScene)
             }
         }

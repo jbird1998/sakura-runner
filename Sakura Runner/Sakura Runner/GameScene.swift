@@ -11,6 +11,9 @@ import GameplayKit
 
 class GameScene: SKScene {
     
+    var isStarted = Bool(false)
+    var isDead = Bool(false)
+    var scoreLabel = SKLabelNode()
     let background = SKSpriteNode(imageNamed: "gameBackground")
     let ground = SKSpriteNode(imageNamed: "ground")
     var player : SKSpriteNode?
@@ -24,6 +27,11 @@ class GameScene: SKScene {
     let swipedUp = UISwipeGestureRecognizer()
     let swipedDown = UISwipeGestureRecognizer()
     let tappedOnce = UITapGestureRecognizer()
+    var score = Int(0) {
+        didSet {
+            scoreLabel.text = "Distance: \(score)"
+        }
+    }
     
     struct PhysicsCategory {
         static let none      : UInt32 = 0
@@ -34,7 +42,10 @@ class GameScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
-                
+        
+        if isStarted == false {
+            isStarted = true
+        }
         physicsWorld.gravity = .zero
         physicsWorld.contactDelegate = self
         
@@ -101,6 +112,13 @@ class GameScene: SKScene {
         ground.zPosition = -1
         addChild(ground)
         
+        scoreLabel = SKLabelNode(fontNamed: "HelveticaNeue")
+        scoreLabel.text = "Distance: 0"
+        scoreLabel.fontSize = 30
+        scoreLabel.fontColor = SKColor.black
+        scoreLabel.zPosition = 5
+        scoreLabel.position = CGPoint(x: frame.midX-250, y: frame.midY+150)
+        addChild(scoreLabel)
         addRunner()
         //addChild(player)
         
@@ -120,7 +138,9 @@ class GameScene: SKScene {
                 SKAction.wait(forDuration: randomTime())
                 ])
         ))
+        
     }
+
     
     func randomTime() -> Double {
         return Double.random(in: 1...5)
@@ -333,6 +353,11 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
+        if isStarted == true{
+            if isDead == false {
+                score = score+1;
+            }
+        }
     }
 }
 
@@ -356,6 +381,7 @@ extension GameScene: SKPhysicsContactDelegate {
             player?.removeAllActions()
             player?.removeFromParent()
             let gameOver = GameOverScene(size: self.size)
+            gameOver.score = score
             self.view?.presentScene(gameOver)
         }
     }
