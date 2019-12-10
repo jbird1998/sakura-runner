@@ -14,10 +14,13 @@
 		21D611A32383361300B3D636 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D611A22383361300B3D636 /* GameViewController.swift */; };
 		21D611A62383361300B3D636 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 21D611A42383361300B3D636 /* Main.storyboard */; };
 		21D611A82383361400B3D636 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21D611A72383361400B3D636 /* Assets.xcassets */; };
-		21D6125F2399F2EC00B3D636 /* Jumping.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 21D6125E2399F2EC00B3D636 /* Jumping.atlas */; };
-		21D612622399F46F00B3D636 /* Running.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 21D612602399F46F00B3D636 /* Running.atlas */; };
-		21D612632399F46F00B3D636 /* Sliding.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 21D612612399F46F00B3D636 /* Sliding.atlas */; };
 		21D612672399FDCA00B3D636 /* Runner.png in Resources */ = {isa = PBXBuildFile; fileRef = 21D612662399FDCA00B3D636 /* Runner.png */; };
+		21D61269239F08B800B3D636 /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D61268239F08B800B3D636 /* GameOverScene.swift */; };
+		21D6126B239F08C900B3D636 /* SettingsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D6126A239F08C900B3D636 /* SettingsScene.swift */; };
+		21D6126F239F0B9400B3D636 /* HomeScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D6126E239F0B9400B3D636 /* HomeScene.swift */; };
+		21D61273239F18D800B3D636 /* Jumping.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 21D61270239F18D800B3D636 /* Jumping.atlas */; };
+		21D61274239F18D800B3D636 /* Running.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 21D61271239F18D800B3D636 /* Running.atlas */; };
+		21D61275239F18D800B3D636 /* Sliding.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 21D61272239F18D800B3D636 /* Sliding.atlas */; };
 		9856931123986F8C008CD996 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9856931023986F8C008CD996 /* HomeViewController.swift */; };
 		98B068DD2398BB1F0084E470 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B068DC2398BB1F0084E470 /* SettingViewController.swift */; };
 		98B068DF2398C5C60084E470 /* music.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 98B068DE2398C5C60084E470 /* music.mp3 */; };
@@ -37,10 +40,13 @@
 		21D611A52383361300B3D636 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		21D611A72383361400B3D636 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		21D611AC2383361400B3D636 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		21D6125E2399F2EC00B3D636 /* Jumping.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = Jumping.atlas; path = ../../../../../../../Volumes/PATRIOT/Outbound/Jumping.atlas; sourceTree = "<group>"; };
-		21D612602399F46F00B3D636 /* Running.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = Running.atlas; path = ../../../../../../../Volumes/PATRIOT/Outbound/Running.atlas; sourceTree = "<group>"; };
-		21D612612399F46F00B3D636 /* Sliding.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = Sliding.atlas; path = ../../../../../../../Volumes/PATRIOT/Outbound/Sliding.atlas; sourceTree = "<group>"; };
 		21D612662399FDCA00B3D636 /* Runner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Runner.png; sourceTree = "<group>"; };
+		21D61268239F08B800B3D636 /* GameOverScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
+		21D6126A239F08C900B3D636 /* SettingsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScene.swift; sourceTree = "<group>"; };
+		21D6126E239F0B9400B3D636 /* HomeScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScene.swift; sourceTree = "<group>"; };
+		21D61270239F18D800B3D636 /* Jumping.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = Jumping.atlas; path = ../../../../../../../Volumes/PATRIOT/Outbound/Jumping.atlas; sourceTree = "<group>"; };
+		21D61271239F18D800B3D636 /* Running.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = Running.atlas; path = ../../../../../../../Volumes/PATRIOT/Outbound/Running.atlas; sourceTree = "<group>"; };
+		21D61272239F18D800B3D636 /* Sliding.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = Sliding.atlas; path = ../../../../../../../Volumes/PATRIOT/Outbound/Sliding.atlas; sourceTree = "<group>"; };
 		9856931023986F8C008CD996 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		98B068DC2398BB1F0084E470 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		98B068DE2398C5C60084E470 /* music.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = music.mp3; sourceTree = "<group>"; };
@@ -80,10 +86,10 @@
 		21D611992383361300B3D636 /* Sakura Runner */ = {
 			isa = PBXGroup;
 			children = (
+				21D61270239F18D800B3D636 /* Jumping.atlas */,
+				21D61271239F18D800B3D636 /* Running.atlas */,
+				21D61272239F18D800B3D636 /* Sliding.atlas */,
 				21D612662399FDCA00B3D636 /* Runner.png */,
-				21D612602399F46F00B3D636 /* Running.atlas */,
-				21D612612399F46F00B3D636 /* Sliding.atlas */,
-				21D6125E2399F2EC00B3D636 /* Jumping.atlas */,
 				21D6119A2383361300B3D636 /* AppDelegate.swift */,
 				21D6119C2383361300B3D636 /* GameScene.sks */,
 				21D6119E2383361300B3D636 /* Actions.sks */,
@@ -99,6 +105,9 @@
 				98E058E92398E167009F94D8 /* LaunchScreen.xib */,
 				98E058E72398E13B009F94D8 /* logo.png */,
 				21D611AC2383361400B3D636 /* Info.plist */,
+				21D61268239F08B800B3D636 /* GameOverScene.swift */,
+				21D6126A239F08C900B3D636 /* SettingsScene.swift */,
+				21D6126E239F0B9400B3D636 /* HomeScene.swift */,
 			);
 			path = "Sakura Runner";
 			sourceTree = "<group>";
@@ -161,16 +170,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				21D6125F2399F2EC00B3D636 /* Jumping.atlas in Resources */,
 				21D611A62383361300B3D636 /* Main.storyboard in Resources */,
+				21D61274239F18D800B3D636 /* Running.atlas in Resources */,
 				21D6119D2383361300B3D636 /* GameScene.sks in Resources */,
+				21D61273239F18D800B3D636 /* Jumping.atlas in Resources */,
 				98E058E82398E13B009F94D8 /* logo.png in Resources */,
 				98B068DF2398C5C60084E470 /* music.mp3 in Resources */,
+				21D61275239F18D800B3D636 /* Sliding.atlas in Resources */,
 				21D611A82383361400B3D636 /* Assets.xcassets in Resources */,
-				21D612632399F46F00B3D636 /* Sliding.atlas in Resources */,
 				21D612672399FDCA00B3D636 /* Runner.png in Resources */,
 				21D6119F2383361300B3D636 /* Actions.sks in Resources */,
-				21D612622399F46F00B3D636 /* Running.atlas in Resources */,
 				98E058EA2398E167009F94D8 /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -184,9 +193,12 @@
 			files = (
 				98B068DD2398BB1F0084E470 /* SettingViewController.swift in Sources */,
 				98B068E12398D4DF0084E470 /* Sound.swift in Sources */,
+				21D61269239F08B800B3D636 /* GameOverScene.swift in Sources */,
+				21D6126F239F0B9400B3D636 /* HomeScene.swift in Sources */,
 				21D611A12383361300B3D636 /* GameScene.swift in Sources */,
 				21D611A32383361300B3D636 /* GameViewController.swift in Sources */,
 				98B068E32398D70A0084E470 /* GameOverViewController.swift in Sources */,
+				21D6126B239F08C900B3D636 /* SettingsScene.swift in Sources */,
 				21D6119B2383361300B3D636 /* AppDelegate.swift in Sources */,
 				9856931123986F8C008CD996 /* HomeViewController.swift in Sources */,
 			);

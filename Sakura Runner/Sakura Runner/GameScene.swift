@@ -109,23 +109,25 @@ class GameScene: SKScene {
         let fixed1 = Double(numPoints)
         let fixed2 = doubleH/fixed1
         for index in -numPoints/2+1...numPoints/2 {
-            if index != 0 {
                 shurikenValsY.append(Double(index)*fixed2)
-            }
         }
         
         run(SKAction.repeatForever(
             SKAction.sequence([
                 SKAction.run(spawnShuriken),
-                SKAction.wait(forDuration: 3.0),
-                SKAction.run(spawnPlatform),
-                SKAction.wait(forDuration: 2.0)
+                SKAction.wait(forDuration: randomTime()),
+                SKAction.run(spawnSpikes),
+                SKAction.wait(forDuration: randomTime())
                 ])
         ))
     }
     
-    func randomSpikes() -> Int {
-        return Int.random(in: 0...3)
+    func randomTime() -> Double {
+        return Double.random(in: 1...5)
+    }
+    
+    func randomIndicator() -> Int {
+        return Int.random(in: 0...1)
         //Key: 0 -> no spikes, 1 -> top spikes, 2 -> bottom spikes, 3 -> both spikes
     }
     
@@ -134,6 +136,13 @@ class GameScene: SKScene {
     }
     
     func spawnShuriken() {
+        let i = randomIndicator()
+        if i == 1 {
+            spawnShurikenMain()
+        }
+    }
+    
+    func spawnShurikenMain() {
         let shur = SKSpriteNode(imageNamed: "shuriken")
         
         shur.size = CGSize(width: size.height/40, height: size.height/40)
@@ -164,38 +173,21 @@ class GameScene: SKScene {
         
     }
     
-    func spawnPlatform() {
-        let plat = SKSpriteNode(imageNamed: "small_platform")
-        
-        plat.size = CGSize(width: size.width/10, height: size.height/20)
-        
-        plat.position = CGPoint(x: size.width + plat.size.width/2, y: 0)
-        
-        plat.zPosition = 1
-        
-        /*plat.physicsBody = SKPhysicsBody(rectangleOf: plat.size)
-        plat.physicsBody?.isDynamic = false
-        plat.physicsBody?.categoryBitMask = PhysicsCategory.platform
-        plat.physicsBody?.collisionBitMask = PhysicsCategory.player*/
-        
-        addChild(plat)
+    func spawnSpikes() {
         
         let duration = CGFloat(6.0)
         
-        let move = SKAction.move(to: CGPoint(x: -plat.size.width/2-size.width/2, y: 0),
-                                 duration: TimeInterval(duration))
         let remove = SKAction.removeFromParent()
-        plat.run(SKAction.sequence([move, remove]))
         
-        let spikeNum = randomSpikes()
+        let spikeNum = randomIndicator()
         
-        if (spikeNum == 1 || spikeNum == 3) {
+        if (spikeNum == 1) {
             let topSpike = SKSpriteNode(imageNamed: "free_spikes")
-            topSpike.size = CGSize(width: plat.size.width, height: plat.size.height*1.5)
-            topSpike.position = CGPoint(x: plat.position.x, y: plat.position.y+topSpike.size.height/2)
+            topSpike.size = CGSize(width: size.width/10, height: size.height/20)
+            topSpike.position = CGPoint(x: size.width + topSpike.size.width/2, y: ground.position.y+ground.size.height/2+topSpike.size.height/2)
             topSpike.zPosition = 0
             topSpike.physicsBody = SKPhysicsBody(rectangleOf: topSpike.size)
-            topSpike.physicsBody?.isDynamic = false
+            topSpike.physicsBody?.isDynamic = true
             topSpike.physicsBody?.categoryBitMask = PhysicsCategory.pointy
             topSpike.physicsBody?.contactTestBitMask = PhysicsCategory.player
             topSpike.physicsBody?.collisionBitMask = PhysicsCategory.player
@@ -204,23 +196,6 @@ class GameScene: SKScene {
             
             let topMove = SKAction.move(to: CGPoint(x: -topSpike.size.width/2-size.width/2, y: topSpike.position.y), duration: TimeInterval(duration))
             topSpike.run(SKAction.sequence([topMove, remove]))
-        }
-        if (spikeNum == 2 || spikeNum == 3) {
-            let bottomSpike = SKSpriteNode(imageNamed: "free_spikes")
-            bottomSpike.size = CGSize(width: plat.size.width, height: plat.size.height*1.5)
-            bottomSpike.position = CGPoint(x: plat.position.x, y: plat.position.y-bottomSpike.size.height/2)
-            bottomSpike.zPosition = 0
-            bottomSpike.zRotation = CGFloat(Double.pi)
-            bottomSpike.physicsBody = SKPhysicsBody(rectangleOf: bottomSpike.size)
-            bottomSpike.physicsBody?.isDynamic = false
-            bottomSpike.physicsBody?.categoryBitMask = PhysicsCategory.pointy
-            bottomSpike.physicsBody?.contactTestBitMask = PhysicsCategory.player
-            bottomSpike.physicsBody?.collisionBitMask = PhysicsCategory.player
-            bottomSpike.physicsBody?.usesPreciseCollisionDetection = true
-            addChild(bottomSpike)
-            
-            let bottomMove = SKAction.move(to: CGPoint(x: -bottomSpike.size.width/2-size.width/2, y: bottomSpike.position.y), duration: TimeInterval(duration))
-            bottomSpike.run(SKAction.sequence([bottomMove, remove]))
         }
         
     }
@@ -242,6 +217,7 @@ class GameScene: SKScene {
         cleanScene()
         self.removeAllChildren()
         self.removeAllActions()
+        self.removeFromParent()
     }
     
     func addRunner() {
@@ -250,7 +226,7 @@ class GameScene: SKScene {
         newPlayer.size = CGSize(width: size.width/7, height: size.height/3)
         newPlayer.position = CGPoint(x: newPlayer.size.width-size.width/2, y: ground.position.y+ground.size.height+newPlayer.size.height/4)
         newPlayer.zPosition = 0
-        newPlayer.physicsBody = SKPhysicsBody(texture: runningFrames[0], size: runningFrames[0].size())
+        newPlayer.physicsBody = SKPhysicsBody(rectangleOf: newPlayer.size)
         newPlayer.physicsBody?.isDynamic = false
         newPlayer.physicsBody?.categoryBitMask = PhysicsCategory.player
         //newPlayer.physicsBody?.collisionBitMask = PhysicsCategory.platform
@@ -279,7 +255,7 @@ class GameScene: SKScene {
         newPlayer.size = player!.size //CGSize(width: size.width/6, height: size.width/6)
         newPlayer.position = player!.position
         newPlayer.zPosition = 0
-        newPlayer.physicsBody = SKPhysicsBody(texture: firstJumpingFrames[9], size: firstJumpingFrames[9].size())
+        newPlayer.physicsBody = SKPhysicsBody(rectangleOf: newPlayer.size)
         newPlayer.physicsBody?.isDynamic = false
         newPlayer.physicsBody?.categoryBitMask = PhysicsCategory.player
         //newPlayer.physicsBody?.collisionBitMask = PhysicsCategory.platform
@@ -293,10 +269,10 @@ class GameScene: SKScene {
     }
     
     func playJumpingAnimation() {
-        let up = SKAction.moveBy(x: 0, y: size.height/2, duration: TimeInterval(exactly: 0.55)!)
-        let down = SKAction.moveBy(x: 0, y: -size.height/2, duration: TimeInterval(exactly: 0.55)!)
-        let animationUp = SKAction.animate(with: firstJumpingFrames, timePerFrame: 0.05, resize: false, restore: true)
-        let animationDown = SKAction.animate(with: secondJumpingFrames, timePerFrame: 0.05, resize: false, restore: true)
+        let up = SKAction.moveBy(x: 0, y: size.height/2, duration: TimeInterval(exactly: 0.77)!)
+        let down = SKAction.moveBy(x: 0, y: -size.height/2, duration: TimeInterval(exactly: 0.77)!)
+        let animationUp = SKAction.animate(with: firstJumpingFrames, timePerFrame: 0.07, resize: false, restore: true)
+        let animationDown = SKAction.animate(with: secondJumpingFrames, timePerFrame: 0.07, resize: false, restore: true)
         let animatedJumpUp = SKAction.group([up, animationUp])
         let animatedJumpDown = SKAction.group([down, animationDown])
         let totalAction = SKAction.sequence([animatedJumpUp, animatedJumpDown, runningAnimation()])
@@ -310,7 +286,7 @@ class GameScene: SKScene {
         newPlayer.size = player!.size //CGSize(width: size.height/3, height: size.width/6)
         newPlayer.position = player!.position
         newPlayer.zPosition = 0
-        newPlayer.physicsBody = SKPhysicsBody(texture: slidingFrames[10], size: slidingFrames[10].size())
+        newPlayer.physicsBody = SKPhysicsBody(rectangleOf: newPlayer.size)
         newPlayer.physicsBody?.isDynamic = false
         newPlayer.physicsBody?.categoryBitMask = PhysicsCategory.player
         //newPlayer.physicsBody?.collisionBitMask = PhysicsCategory.platform
