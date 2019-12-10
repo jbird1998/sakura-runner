@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="hTV-O0-d3d">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BV1-FR-VrT">
     <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -21,76 +21,10 @@
                         <viewLayoutGuide key="safeArea" id="4qk-I5-YsI"/>
                     </view>
                     <navigationItem key="navigationItem" id="sdf-W9-g5J"/>
-                    <connections>
-                        <segue destination="NJU-7K-ulU" kind="showDetail" identifier="gameover" id="aSp-hG-thu"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="281" y="-166"/>
         </scene>
-        <!--Game Over View Controller-->
-        <scene sceneID="NDG-bh-T0c">
-            <objects>
-                <viewController id="NJU-7K-ulU" customClass="GameOverViewController" customModule="Sakura_Runner" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="mHv-zi-Abt">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="z2R-Cg-dqu"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="RQP-YS-K9L"/>
-                    <connections>
-                        <segue destination="hTV-O0-d3d" kind="showDetail" identifier="backHome2" id="CMd-Jh-Dwb"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="GLd-B0-jYf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1151" y="194"/>
-        </scene>
-        <!--Home View Controller-->
-        <scene sceneID="T0i-2g-Vuw">
-            <objects>
-                <viewController id="hTV-O0-d3d" customClass="HomeViewController" customModule="Sakura_Runner" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Xoq-ab-Xhz">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="b7L-9F-nIw"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="UJN-RM-ija"/>
-                    <connections>
-                        <segue destination="BV1-FR-VrT" kind="showDetail" identifier="start" id="8pc-D2-4X2"/>
-                        <segue destination="ngP-o7-wrK" kind="showDetail" identifier="setting" id="pqZ-Bu-wnj"/>
-                        <segue destination="NJU-7K-ulU" kind="showDetail" identifier="gameover" id="bzU-7v-JrT"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Bq2-Td-pv2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-565.21739130434787" y="112.5"/>
-        </scene>
-        <!--Setting View Controller-->
-        <scene sceneID="ivR-ES-h0H">
-            <objects>
-                <viewController id="ngP-o7-wrK" customClass="SettingViewController" customModule="Sakura_Runner" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Rw5-8D-Fl6">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="MgZ-Sr-5JG"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="ZS7-KY-88B"/>
-                    <connections>
-                        <segue destination="hTV-O0-d3d" kind="showDetail" identifier="backHome" id="a5K-r1-5d0"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="oAX-pE-4Ie" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="246" y="530"/>
-        </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="a5K-r1-5d0"/>
-        <segue reference="aSp-hG-thu"/>
-    </inferredMetricsTieBreakers>
 </document>

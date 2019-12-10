@@ -11,28 +11,17 @@ import SpriteKit
 import GameplayKit
 
 class GameViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "gameover"), object: nil)
-        if let view = self.view as! SKView? {
-            // Load the SKScene from 'GameScene.sks'
-            if let scene = SKScene(fileNamed: "GameScene") {
-                // Set the scale mode to scale to fit the window
-                scene.scaleMode = .fill
-                view.frame.size = scene.size
-                // Present the scene
-                view.presentScene(scene)
-            }
-            
-            view.ignoresSiblingOrder = true
-            
-            //view.showsFPS = true
-            //view.showsNodeCount = true
-            
-            settingButton()
-        }
-        NotificationCenter.default.addObserver(self, selector: #selector(GameViewController.doaSegue), name: NSNotification.Name(rawValue: "gameover"), object: nil)
+        
+        let scene = HomeScene(size: view.bounds.size)
+        let skView = view as! SKView
+        skView.showsFPS = false
+        skView.showsNodeCount = false
+        skView.ignoresSiblingOrder = false
+        scene.scaleMode = .resizeFill
+        skView.presentScene(scene)
 
     }
     
@@ -42,23 +31,13 @@ class GameViewController: UIViewController {
         }
     }
     
-    @objc func doaSegue(){
-        performSegue(withIdentifier: "gameover", sender: self)
-        self.view.removeFromSuperview()
-        self.view = nil
-    }
-
-    @objc func goToSettings(sender: UIButton!) {
-          self.performSegue(withIdentifier: "gameover", sender: self)
-      }
-      
-      func settingButton() {
-          let button = UIButton(frame: CGRect(x:(self.view.frame.size.width-200)/2, y:(self.view.frame.size.height-40)/2, width: 200, height: 50))
-          let image = UIImage(named: "settings") as UIImage?
-          button.setImage(image, for: .normal)
-          button.addTarget(self, action: #selector(goToSettings), for: .touchUpInside);
-          self.view.addSubview(button)
-      }
+   override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .landscapeRight
+   }
+   
+   override func didReceiveMemoryWarning() {
+       super.didReceiveMemoryWarning()
+   }
     override var shouldAutorotate: Bool {
         return true
     }
@@ -66,4 +45,6 @@ class GameViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return true
     }
+    
+    
 }

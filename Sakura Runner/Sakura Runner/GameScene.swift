@@ -355,8 +355,8 @@ extension GameScene: SKPhysicsContactDelegate {
             
             player?.removeAllActions()
             player?.removeFromParent()
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "gameover"), object: nil)
-            
+            let gameOver = GameOverScene(size: self.size)
+            self.view?.presentScene(gameOver)
         }
     }
 }

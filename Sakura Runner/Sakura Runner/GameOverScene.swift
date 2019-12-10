@@ -60,8 +60,8 @@ class GameOverScene: SKScene {
         let nodeName = touchedNode.name
         
         if nodeName == "returnHome" {
-            let backHome = HomeScene(fileNamed: "HomeScene")
-            self.view?.presentScene(backHome!)
+            let backHome = HomeScene(size: self.size)
+            self.view?.presentScene(backHome)
         }
     }
 }
