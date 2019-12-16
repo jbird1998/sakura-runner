@@ -15,6 +15,7 @@ class HomeScene: SKScene {
     var runnerFrames: [SKTexture] = []
 
     override func didMove(to view: SKView) {
+        //create background, animations, and buttons
         let background = SKSpriteNode(imageNamed: "background")
        background.anchorPoint = CGPoint(x: 0.5, y: 0.5)
        background.size.width = frame.size.width
@@ -47,11 +48,21 @@ class HomeScene: SKScene {
         sakuraAnimation.name = "sakuraLayer"
         self.view?.layer.addSublayer(sakuraAnimation)
         
+        let highScoreLabel = SKLabelNode(fontNamed: "Ninja Naruto")
+        let highScore = UserDefaults.standard.object(forKey: "highScore") as? Int ?? 0
+        highScoreLabel.text = "High Score: \(highScore)M"
+        highScoreLabel.fontSize = 20
+        highScoreLabel.fontColor = SKColor.black
+        highScoreLabel.zPosition = 5
+        highScoreLabel.position = CGPoint(x: frame.midX+frame.size.width/3, y: frame.midY-frame.size.height/3)
+        addChild(highScoreLabel)
+        
         buildRunner()
         animateRunner()
     
     }
     func buildRunner() {
+        //build and display the runner node from an atlas
         let runnerAtlas = SKTextureAtlas(named: "Running")
         var runFrames: [SKTexture] = []
         let num = runnerAtlas.textureNames.count
@@ -72,10 +83,12 @@ class HomeScene: SKScene {
     }
     
     func animateRunner() {
+        //animate the runner
         runner.run(SKAction.repeatForever(SKAction.animate(with: runnerFrames, timePerFrame: 0.05, resize: true, restore: true)), withKey: "runningRunner")
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        //determine whether the player is trying to start the game, access settings, or neither
         let touch = touches.first
         let positionInScene = touch!.location(in: self)
         let touchedNode = self.atPoint(positionInScene)
@@ -103,6 +116,7 @@ class HomeScene: SKScene {
     }
     
     func sakuraAnimate() -> CAEmitterLayer {
+        // create a sakura falling sprites layer
         let sakuraCell = CAEmitterCell()
         sakuraCell.contents = UIImage(named: "flower")?.cgImage
         sakuraCell.lifetime = 7

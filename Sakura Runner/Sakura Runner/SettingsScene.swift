@@ -15,7 +15,7 @@ class SettingsScene: SKScene {
     let background = SKSpriteNode(imageNamed: "settingBackground")
     
     override func didMove(to view: SKView) {
-       
+       // create background, buttons, and animation layers.
        background.anchorPoint = CGPoint(x: 0.5, y: 0.5)
        background.size.height = frame.size.height
        background.size.width = frame.size.width
@@ -53,6 +53,7 @@ class SettingsScene: SKScene {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        // determine whether or not to toggle sound on or off
         let touch = touches.first
         let positionInScene = touch!.location(in: self)
         let touchedNode = self.atPoint(positionInScene)
@@ -85,6 +86,7 @@ class SettingsScene: SKScene {
     }
     
     func sakuraAnimate() -> CAEmitterLayer {
+        // create a sakura falling sprites layer
         let sakuraCell = CAEmitterCell()
         sakuraCell.contents = UIImage(named: "flower")?.cgImage
         sakuraCell.lifetime = 7

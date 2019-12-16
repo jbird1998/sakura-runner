@@ -11,6 +11,7 @@ import SpriteKit
 class GameOverScene: SKScene {
     var score = Int(0)
     override func didMove(to view: SKView) {
+        //create background, return home button, and score label
         let background = SKSpriteNode(imageNamed: "gameOver")
         background.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         background.size.height = frame.size.height
@@ -42,6 +43,7 @@ class GameOverScene: SKScene {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        //recognize the touch and determine if the player should return home
         let touch = touches.first
         let positionInScene = touch!.location(in: self)
         let touchedNode = self.atPoint(positionInScene)
@@ -61,6 +63,7 @@ class GameOverScene: SKScene {
     }
     
     func sakuraAnimate() -> CAEmitterLayer {
+        // create a sakura falling sprites layer
         let sakuraCell = CAEmitterCell()
         sakuraCell.contents = UIImage(named: "flower")?.cgImage
         sakuraCell.lifetime = 7

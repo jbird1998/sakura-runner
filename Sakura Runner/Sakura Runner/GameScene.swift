@@ -11,6 +11,7 @@ import GameplayKit
 
 class GameScene: SKScene {
     
+    //**********BEGIN GENERAL VARIABLE DECLARATIONS**********//
     var isStarted = Bool(false)
     var isDead = Bool(false)
     var scoreLabel = SKLabelNode()
@@ -26,20 +27,24 @@ class GameScene: SKScene {
     var isPoweredUp = false
     var originSize: CGSize?
     var originPoint: CGPoint?
-    let gameSpeedDefault = 5.0
+    let gameSpeedDefault = 4.0
     var gameSpeed = 4.0
     var sakuraLabel: SKLabelNode?
     
     let swipedUp = UISwipeGestureRecognizer()
     let swipedDown = UISwipeGestureRecognizer()
     let tappedOnce = UITapGestureRecognizer()
+    var rawScore = 0
+    var highScore = 0
     var score = Int(0) {
         didSet {
             scoreLabel.text = "\(score)m"
         }
     }
-    
+    //**********END GENERAL VARIABLE DECLARATIONS**********//
+
     struct PhysicsCategory {
+        // helper struct for physics collisions
         static let none      : UInt32 = 0
         static let all       : UInt32 = UInt32.max
         static let pointy: UInt32 = 0b10 //spikes and shuriken
@@ -48,13 +53,15 @@ class GameScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
-        
+        // begin the game, but add in all necessary background and helper textures first.
         if isStarted == false {
             isStarted = true
         }
         physicsWorld.gravity = .zero
         physicsWorld.contactDelegate = self
         
+        //**********BEGIN GESTURE RECOGNIZING DECLARATIONS**********//
+
         swipedUp.addTarget(self, action: #selector(GameScene.jump))
         swipedUp.direction = .up
         self.view!.addGestureRecognizer(swipedUp)
@@ -62,12 +69,10 @@ class GameScene: SKScene {
         swipedDown.addTarget(self, action: #selector(GameScene.slide))
         swipedDown.direction = .down
         self.view!.addGestureRecognizer(swipedDown)
+        //**********END GESTURE RECOGNIZING DECLARATIONS**********//
+
         
-        /*tappedOnce.addTarget(self, action:#selector(GameScene.tappedView(_:) ))
-        tappedOnce.numberOfTouchesRequired = 1
-        tappedOnce.numberOfTapsRequired = 1
-        self.view!.addGestureRecognizer(tappedOnce)*/
-        
+        //**********BEGIN TEXTURE DECLARATIONS**********//
         let jumpAtlas = SKTextureAtlas(named: "Jumping")
         let jumpImages = jumpAtlas.textureNames.count
         for i in 0...jumpImages-1 {
@@ -105,7 +110,9 @@ class GameScene: SKScene {
             }
         }
         reverseSlideFrames = reverseSlideFrames.reversed()
+        //**********END TEXTURE DECLARATIONS**********//
         
+        //**********BEGIN GAME AESTHETIC DECLARATIONS**********//
         background.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         background.size.height = frame.size.height
         background.size.width = frame.size.width
@@ -128,8 +135,11 @@ class GameScene: SKScene {
         scoreLabel.zPosition = 5
         scoreLabel.position = CGPoint(x: frame.midX-350, y: frame.midY+150)
         addChild(scoreLabel)
+        
+        highScore = UserDefaults.standard.object(forKey: "highScore") as? Int ?? 0
+        //**********END GAME AESTHETIC DECLARATIONS**********//
+
         addRunner()
-        //addChild(player)
         
         let numPoints = 5
         let doubleH = Double(size.height)*2/3
@@ -139,6 +149,7 @@ class GameScene: SKScene {
                 shurikenValsY.append(Double(index)*fixed2)
         }
         
+        // the game sequence in its entirety
         run(SKAction.repeatForever(
             SKAction.sequence([
                 SKAction.run(spawnShuriken),
@@ -152,7 +163,7 @@ class GameScene: SKScene {
         
     }
 
-    
+    //**********BEGIN GENERATE RANDOM NUMBERS**********//
     func randomTime() -> Double {
         return Double.random(in: gameSpeed*2/5...gameSpeed*4/5)
     }
@@ -169,14 +180,16 @@ class GameScene: SKScene {
     func randomShurikenY() -> CGFloat {
         return CGFloat(shurikenValsY[Int.random(in: 0..<shurikenValsY.count)])
     }
+    //**********END GENERATE RANDOM NUMBERS**********//
     
     func createSakuraLabel() {
+        //create the "Sakura Power" label
         sakuraLabel = SKLabelNode(fontNamed: "Ninja Naruto")
         sakuraLabel?.text = "Sakura Power!"
         sakuraLabel?.fontSize = 64
         sakuraLabel?.fontColor = SKColor.magenta
         sakuraLabel?.zPosition = 5
-        sakuraLabel?.position = CGPoint(x: frame.midX, y: frame.midY+125)
+        sakuraLabel?.position = CGPoint(x: frame.midX, y: frame.midY+frame.size.height/10)
         addChild(sakuraLabel!)
     }
     
@@ -195,6 +208,8 @@ class GameScene: SKScene {
     }
     
     func spawnSakuraMain() {
+        //method for spawning the sakura flower and moving it across the screen
+        if isPoweredUp {return}
         let sakura = SKSpriteNode(imageNamed: "flower")
         
         sakura.size = CGSize(width: size.height/10, height: size.height/10)
@@ -223,6 +238,8 @@ class GameScene: SKScene {
     }
     
     func spawnShurikenMain() {
+        // spawns the shuriken node and moves it across the screen
+        if isPoweredUp {return}
         let shur = SKSpriteNode(imageNamed: "shuriken")
         
         shur.size = CGSize(width: size.height/10, height: size.height/10)
@@ -254,7 +271,8 @@ class GameScene: SKScene {
     }
     
     func spawnSpikes() {
-        
+        // spawns the spike node and animates it across the screen
+        if isPoweredUp {return}
         let duration = CGFloat(gameSpeed)
         
         let remove = SKAction.removeFromParent()
@@ -281,19 +299,21 @@ class GameScene: SKScene {
     }
     
     func cleanScene() {
-        if let s = self.view?.scene {
+        // a clean up method for when the scene transitions
+        if let game = self.view?.scene {
             self.children.forEach {
                 $0.removeAllActions()
                 $0.removeAllChildren()
                 $0.removeFromParent()
             }
-            s.removeAllActions()
-            s.removeAllChildren()
-            s.removeFromParent()
+            game.removeAllActions()
+            game.removeAllChildren()
+            game.removeFromParent()
         }
     }
     
     override func willMove(from view: SKView) {
+        // called when the scene is going to move
         cleanScene()
         self.removeAllChildren()
         self.removeAllActions()
@@ -301,7 +321,7 @@ class GameScene: SKScene {
     }
     
     func addRunner() {
-        //add the player with first frame
+        //adds the default runner node
         let newPlayer = SKSpriteNode(texture: runningFrames[0])
         newPlayer.size = originSize!
         newPlayer.position = originPoint!
@@ -321,6 +341,7 @@ class GameScene: SKScene {
     
     func addSakuraPowerRunner() {
         //TODO: Change SKSpriteNode texture
+        // adds the sakura power runner
         let newPlayer = SKSpriteNode(texture: runningFrames[0])
         newPlayer.size = CGSize(width: size.width/7, height: size.height/3)
         newPlayer.position = originPoint!
@@ -339,22 +360,26 @@ class GameScene: SKScene {
     }
     
     func playRunningAnimation() {
+        //master method for playing the default running animation
         player!.removeAllActions()
         player!.run(runningAnimation(), withKey: "runningRunner")
     }
     
     func playSakuraPowerRunningAnimation() {
+        // master method for playing the sakura power up animation
         player!.removeAllActions()
         player!.run(sakuraPowerRunningAnimation(), withKey: "sakuraPowerRunner")
     }
     
     func runningAnimation() -> SKAction {
+        // the default running animation
         player!.size = CGSize(width: size.width/7, height: size.height/3)
         return SKAction.repeatForever(SKAction.animate(with: runningFrames, timePerFrame: 0.05, resize: false, restore: true))
     }
     
     func sakuraPowerRunningAnimation() -> SKAction {
         //TODO: Replace frames with sakura power frames
+        // currently plays the sakura power up running animation
         player!.size = CGSize(width: size.width/7, height: size.height/3)
         let resetStatus = SKAction.run {
             self.isPoweredUp = false
@@ -368,12 +393,13 @@ class GameScene: SKScene {
     }
     
     func addJumper() {
-        //add the player with first frame
+        //add the jumping player and play the animation
         let newPlayer = SKSpriteNode(texture: firstJumpingFrames[9])
         newPlayer.size = player!.size //CGSize(width: size.width/6, height: size.width/6)
         newPlayer.position = player!.position
         newPlayer.zPosition = 0
-        newPlayer.physicsBody = SKPhysicsBody(rectangleOf: newPlayer.size)
+        let boundingBox = CGSize(width: newPlayer.size.width*2/3, height: newPlayer.size.height*2/3)
+        newPlayer.physicsBody = SKPhysicsBody(rectangleOf: boundingBox)
         newPlayer.physicsBody?.isDynamic = false
         newPlayer.physicsBody?.categoryBitMask = PhysicsCategory.player
         //newPlayer.physicsBody?.collisionBitMask = PhysicsCategory.platform
@@ -387,6 +413,7 @@ class GameScene: SKScene {
     }
     
     func playJumpingAnimation() {
+        // play the entire jumping animation
         let up = SKAction.moveBy(x: 0, y: size.height/2, duration: TimeInterval(exactly: 0.77)!)
         let down = SKAction.moveBy(x: 0, y: -size.height/2, duration: TimeInterval(exactly: 0.77)!)
         let animationUp = SKAction.animate(with: firstJumpingFrames, timePerFrame: 0.07, resize: false, restore: true)
@@ -399,7 +426,7 @@ class GameScene: SKScene {
     }
     
     func addSlider() {
-        //add the player with first frame
+        //add the sliding guy and play the animation
         let newPlayer = SKSpriteNode(texture: slidingFrames[10])
         newPlayer.size = player!.size //CGSize(width: size.height/3, height: size.width/6)
         newPlayer.position = player!.position
@@ -407,7 +434,6 @@ class GameScene: SKScene {
         newPlayer.physicsBody = SKPhysicsBody(rectangleOf: newPlayer.size)
         newPlayer.physicsBody?.isDynamic = false
         newPlayer.physicsBody?.categoryBitMask = PhysicsCategory.player
-        //newPlayer.physicsBody?.collisionBitMask = PhysicsCategory.platform
         newPlayer.physicsBody?.contactTestBitMask = PhysicsCategory.pointy
         addChild(newPlayer)
         player!.removeFromParent()
@@ -418,6 +444,7 @@ class GameScene: SKScene {
     }
     
     func playSlidingAnimation() {
+        // play the entire sliding animation
         let down = SKAction.moveBy(x: 0, y: -player!.size.height/4, duration: TimeInterval(exactly: 1.0)!)
         let up = SKAction.moveBy(x: 0, y: player!.size.height/4, duration: TimeInterval(exactly: 0.5)!)
         //let slide = SKAction.sequence([down, up])
@@ -429,11 +456,6 @@ class GameScene: SKScene {
         player!.removeAllActions()
         player!.run(totalAction)
     }
-    
-    /*@objc func run() {
-        print("Run")
-        addRunner()
-    }*/
     
     @objc func jump() {
         print("Jump")
@@ -460,50 +482,57 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
-        if score <= Int((gameSpeedDefault-1.0)*500) {
+        if score <= Int(1000) {
             gameSpeed = gameSpeedDefault - Double(score/Int(500))
         } else {
-            gameSpeed = 1.0
+            gameSpeed = 2.0
         }
         if isStarted == true{
             if isDead == false {
                 if !isPoweredUp {
-                    score = score+1
+                    rawScore = rawScore+1
                 } else {
-                    score = score+2
+                    rawScore = rawScore+2
                 }
+                score = Int(rawScore/6)
             }
         }
     }
 }
 
+//The below is the necessary collision detection extension for the GameScene
 extension GameScene: SKPhysicsContactDelegate {
     func didBegin(_ contact: SKPhysicsContact) {
         print("CONTACT")
-        var firstBody: SKPhysicsBody
-        var secondBody: SKPhysicsBody
+        var bodyHit: SKPhysicsBody
+        var otherBody: SKPhysicsBody
         if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
-            firstBody = contact.bodyA
-            secondBody = contact.bodyB
+            bodyHit = contact.bodyA
+            otherBody = contact.bodyB
         } else {
-            firstBody = contact.bodyB
-            secondBody = contact.bodyA
+            bodyHit = contact.bodyB
+            otherBody = contact.bodyA
         }
         
-        if ((firstBody.categoryBitMask & PhysicsCategory.pointy != 0) && (secondBody.categoryBitMask & PhysicsCategory.player != 0)) {
+        // the player hits a dangerous object
+        if ((bodyHit.categoryBitMask & PhysicsCategory.pointy != 0) && (otherBody.categoryBitMask & PhysicsCategory.player != 0)) {
             
             print("HIT POINTY")
             
             player?.removeAllActions()
             player?.removeFromParent()
+            if score > highScore {
+                highScore = score
+                UserDefaults.standard.set(highScore, forKey: "highScore")
+            }
             let gameOver = GameOverScene(size: self.size)
             gameOver.score = score
             self.view?.presentScene(gameOver)
-        } else if ((firstBody.categoryBitMask & PhysicsCategory.sakura != 0) && (secondBody.categoryBitMask & PhysicsCategory.player != 0)) {
-            
+        } else if ((bodyHit.categoryBitMask & PhysicsCategory.sakura != 0) && (otherBody.categoryBitMask & PhysicsCategory.player != 0)) {
+            //the player has hit a sakura flower power up
             print("HIT SAKURA")
             
-            if let sakura = firstBody.node as? SKSpriteNode {
+            if let sakura = bodyHit.node as? SKSpriteNode {
                 sakura.removeFromParent()
             }
             isPoweredUp = true
