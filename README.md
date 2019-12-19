@@ -34,43 +34,43 @@ Press the play button on XCode to run simulator
     - Graphics - Pivot, Pixelmator 
     
 ## App Logo
-![App Logo](https://github.com/jbird1998/sakura-runner/blob/master/Sakura%20Runner/appLogoSakuraRunner.png){:height="50%" width="50%"}
+![App Logo](https://github.com/jbird1998/sakura-runner/blob/master/Sakura%20Runner/appLogoSakuraRunner.png)
 
 ## Overall Logic and High-Level Flowchart 
 
 ### Landing Scene 
-![Landing Page](https://github.com/jbird1998/sakura-runner/blob/master/Sakura%20Runner/landingpage.png){:height="50%" width="50%"}
+![Landing Page](https://github.com/jbird1998/sakura-runner/blob/master/Sakura%20Runner/landingpage.png)
     
 This is the scene that appears when the game launches.
 The user can view their highest score. 
 When the user clicks on the Settings button, he/she is led to the settings scene. 
     
 ### Settings Scene 
-![Setting Scene](/https://github.com/jbird1998/sakura-runner/blob/master/Sakura%20Runner/settings.png){:height="50%" width="50%"}
+![Setting Scene](https://github.com/jbird1998/sakura-runner/blob/master/Sakura%20Runner/settings.png)
 
 Here the user can toggle the background music on and off. The user can click on the return home button to go back to the landing scene. 
 
 ### Game Scene 
-![Game Scene](https://github.com/jbird1998/sakura-runner/blob/master/Sakura%20Runner/gamescene.png){:height="50%" width="50%"}
+![Game Scene](https://github.com/jbird1998/sakura-runner/blob/master/Sakura%20Runner/gamescene.png)
 
 The player can swipe up to jump and swipe down to slide in order to avoid obstacles.
 The default action for the player is running. 
 
 When the player encounters a sakura plower, he gets sakura power. 
 
-![Sakura Scene](https://github.com/jbird1998/sakura-runner/blob/master/Sakura%20Runner/sakurapage.png){:height="50%" width="50%"}
+![Sakura Scene](https://github.com/jbird1998/sakura-runner/blob/master/Sakura%20Runner/sakurapage.png)
 
 The player with sakura power runs twice as fast and can run past obstacles. 
 
 When the player comes in contact with an obstacle, the game is over. 
 
 ### Game Over Scene 
-![Game Over Scene](https://github.com/jbird1998/sakura-runner/blob/master/Sakura%20Runner/gameover.png){:height="50%" width="50%"}
+![Game Over Scene](https://github.com/jbird1998/sakura-runner/blob/master/Sakura%20Runner/gameover.png)
 
 The player can view their score, and go back to the home screen to restart game.
 
 ### High-Level Flowchart 
-![Flowchart](https://github.com/jbird1998/sakura-runner/blob/master/Sakura%20Runner/flowchart.png){:height="50%" width="50%"}
+![Flowchart](https://github.com/jbird1998/sakura-runner/blob/master/Sakura%20Runner/flowchart.png)
 
 ## Responsibilities and Roles
 
