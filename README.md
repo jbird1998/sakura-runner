@@ -1,5 +1,6 @@
 # Sakura Runner
-Sakura Runner final iOS Project Documentation
+
+Sakura Runner Final iOS Project Documentation
 
 ## Authors: Justin Angelastro and So-Young Choi
 
