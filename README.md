@@ -8,7 +8,7 @@ Sakura Runner Final iOS Project Documentation
 
 ## Overview of the iPhone App 
 
-Sakura Runner is an endless runner-style game where the player can run, dodge, or slice through obstacles to reach a high score or the longest distance run. Once the runner comes in contact with an obstacle, the game is over. The game involves two simple actions: swiping down and swiping up. The player can swipe down to dodge and swipe up to jump. The default action is running. The player runs against a beautiful Japanese Sakura backdrop in a Naruto run pose.
+Sakura Runner is an endless runner-style game where the player can run, dodge, or sprint through obstacles to reach a high score or the longest distance run. Once the runner comes in contact with an obstacle, the game is over. The game involves two simple actions: swiping down and swiping up. The player can swipe down to dodge and swipe up to jump. The default action is running. The player runs against a beautiful Japanese Sakura backdrop in a Naruto run pose.
 
 The game involves many features including calming Japanese anime background music, and settings to turn the sound played for each player action or interaction on or off. The user can tap the “Start” button on the home screen to start the game. During the game, there will be score label that shows the distance being run at the top of the screen. When the player comes in contact with an obstacle, the game is over, and the game over scene will be shown with the final distance.
 
@@ -113,3 +113,4 @@ The player can view their score, and go back to the home screen to restart game.
     - Using SKTextureAtlas to animate player - https://www.raywenderlich.com/144-spritekit-animations-and-texture-atlases-in-swift 
     - Using TouchesBegan to make SpriteNodes act as Buttons - https://stackoverflow.com/questions/38192205/create-button-in-spritekit-swift
     - Creating SKScoreLabels - https://sweettutos.com/2017/03/09/build-your-own-flappy-bird-game-with-swift-3-and-spritekit/
+    - SpriteKit Basics and Collisions - https://www.raywenderlich.com/71-spritekit-tutorial-for-beginners
